@@ -26,7 +26,7 @@ mount --bind file1 file2 或 mount --bind dir1 dir2
 
 前述介绍了bind，但是需要root权限。内核提供了无root权限bind的方法。bind的风险在影响所有用户。内核提供了不影响其他用户的方式进行bind。原理如下。
 
-使用unshare(CLONE_NEWNS)后进入独立的mnt命名空间（后称子mnt空间）。通过mount函数设置原mnt空间和子mnt空间如何传播。常用传播模式有private、shared、slave。private模式下子mnt空间继承原mnt空间的挂载点，但不再接收来自原mnt空间新的挂载点。shared模式下子mnt空间何原mnt空间相互影响。slave模式下原mnt空间的挂载点会传播到子mnt挂载点，但子mnt空间新的挂载点对原mnt空间不可见。
+使用unshare(CLONE_NEWNS)后进入独立的mnt命名空间（后称子mnt空间）。通过mount函数设置原mnt空间和子mnt空间如何传播。常用传播模式有private、shared、slave。private模式下子mnt空间继承原mnt空间的挂载点，但不再接收来自原mnt空间新的挂载点。shared模式下子mnt空间和原mnt空间相互影响。slave模式下原mnt空间的挂载点会传播到子mnt挂载点，但子mnt空间新的挂载点对原mnt空间不可见。
 
 根据上面说明，应该使用slave模式。实际上可以使用private和slave模式，不可使用shared模式（即使设置成功也无效）。
 ```
