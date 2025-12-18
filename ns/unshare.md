@@ -28,7 +28,7 @@ mount --bind file1 file2 或 mount --bind dir1 dir2
 
 使用unshare(CLONE_NEWNS)后进入独立的mnt命名空间（后称子mnt空间）。通过mount函数设置原mnt空间和子mnt空间如何传播。常用传播模式有private、shared、slave。private模式下子mnt空间继承原mnt空间的挂载点，但不再接收来自原mnt空间新的挂载点。shared模式下子mnt空间和原mnt空间相互影响。slave模式下原mnt空间的挂载点会传播到子mnt挂载点，但子mnt空间新的挂载点对原mnt空间不可见。
 
-根据上面说明，应该使用slave模式。实际上可以使用private和slave模式，不可使用shared模式（即使设置成功也无效）。
+根据上面说明，应该使用slave模式。非root用户通常可以使用private和slave模式，使用shared模式受限：如果对原mnt空间没有修改权限即使设置成功也无效。
 ```
 unshare --help
 
