@@ -91,4 +91,4 @@ mount --bind /path/to/local/script /path/to/original/script
 
 由于uid和gid被map到0。一些程序无法工作，已知的有bsub p4。解决办法是在正常环境使用p4（脚本中跳过p4）。需要bsub时，先bsub一个csh，再在此csh中执行unshare -m -U -r --propagation slave csh命令。
 
-还有一些脚本和程序根据uid推断用户名进一步推断home目录也无法工作，会出现尝试对/root目录的访问失败。此类脚本可以在报错附近修改home目录（使用bind方法）。无法修改的程序无法继续正常工作。
+还有一些脚本和程序根据uid推断用户名进一步推断home目录也无法工作，会出现尝试对/root目录的访问失败。有三种办法：一是可以在脚本报错附近修改home目录（使用bind方法修改脚本），无法修改的程序（如二进制文件）不适用。二是mount --bind ~ /root，本方法可能存在污染home目录的风险，尤其是如果某些程序存在把uid和username写入home目录的行为（通常不会）。三是mount -t tmpfs tmpfs /root，本方法/root为空的，可能一些程序需要的文件需要额外创建。
