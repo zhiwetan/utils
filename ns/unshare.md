@@ -83,7 +83,7 @@ mount --bind /path/to/local/script /path/to/original/script
 
 调用脚本执行操作。
 
-结束后退出unshare上述的csh。csh及其所有的后代进程退出后会清理user命名空间，mnt命名空间（及其bind关系）。如需手动清理，可以在上述csh里执行umount /path/to/original/script，然后退出这个csh。
+结束后退出unshare上述的csh。csh及其所有的后代进程退出后（不考虑极少情况下的文件fd在进程间传播）内核会自动清理user命名空间，mnt命名空间（及其bind关系）。如需手动清理，可以在上述csh里执行umount /path/to/original/script，然后退出这个csh。
 
 ### 注意事项和使用限制
 
