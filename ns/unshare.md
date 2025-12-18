@@ -61,7 +61,7 @@ For more details see unshare(1).
 
 根据上述说明应该使用unshare -m --propagation slave csh命令。但内核要求CLONE_NEWNS同时必须CLONE_NEWUSER。也就是至少unshare -m -U --propagation slave csh。执行后uid和gid都是65534。应该map到root。综上所述，最终unshare的命令是unshare -m -U -r --propagation slave csh。
 
-但还有一个限制就是系统的/bin/mount是s权限文件，对bind行为在内核检查之外有额外检查，就是强制要求bind行为必须是uid为0的用户才能执行。使用-r参数后mount程序会认为uid为0。
+使用-r参数还有一个原因：有一个限制是系统的/bin/mount是s权限文件，对bind行为在内核检查之外有额外检查，就是强制要求bind行为必须是uid为0的用户才能执行。使用-r参数后mount程序会认为uid为0。
 
 #### user命名空间
 
